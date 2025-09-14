@@ -10,9 +10,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Database connection details - **CHANGE THESE TO YOURS**
 const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'syed@sql',
+    host: 'localhost',//Enter your local host
+    user: 'root',//Enter your user name
+    password: 'sql_password',//Enter ur SQL password
     database: 'user_db'
 });
 
@@ -46,4 +46,5 @@ app.post('/submit-info', (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
     console.log(`Please create an 'index.html' file inside a 'public' folder.`);
+
 });
