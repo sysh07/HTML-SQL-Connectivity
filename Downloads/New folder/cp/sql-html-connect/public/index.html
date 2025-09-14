@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 2em; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center; }
+        form { display: flex; flex-direction: column; }
+        label { margin-top: 1em; text-align: left; font-weight: bold; }
+        input { padding: 0.5em; margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
+        button { margin-top: 1.5em; padding: 0.7em; border: none; background-color: #007bff; color: white; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        #message { margin-top: 1em; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Your Information</h2>
+        <form id="infoForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <button type="submit">Submit</button>
+        </form>
+        <p id="message"></p>
+    </div>
+    <script>
+        document.getElementById('infoForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                age: parseInt(document.getElementById('age').value)
+            };
+            const messageElement = document.getElementById('message');
+            try {
+                const response = await fetch('/submit-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    messageElement.textContent = 'Data submitted successfully! 🎉';
+                    messageElement.style.color = 'green';
+                    document.getElementById('infoForm').reset();
+                } else {
+                    messageElement.textContent = `Error: ${result.message}`;
+                    messageElement.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Submission failed:', error);
+                messageElement.textContent = 'Submission failed. Please try again later.';
+                messageElement.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>
