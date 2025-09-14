@@ -24,6 +24,12 @@ db.connect(err => {
     console.log('Connected to the database.');
 });
 
+const path = require('path');
+...
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Endpoint to handle form submissions
 app.post('/submit-info', (req, res) => {
     const { name, phone, address, age } = req.body;
@@ -48,3 +54,4 @@ app.listen(port, () => {
     console.log(`Please create an 'index.html' file inside a 'public' folder.`);
 
 });
+
